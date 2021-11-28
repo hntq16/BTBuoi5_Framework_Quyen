@@ -1,0 +1,14 @@
+﻿@model List<OnThi.Models.NhanVienModel>
+
+
+<form action="/NhanVien/KQLietKeNV_BT" method="POST">
+    <lable for="MaNhanVien">Tên Nhân Viên:</lable><select name="MaNhanVien" id="MaNhanVien">
+        @foreach (var item in Model)
+        {
+            <option value="@item.maNhanVien">@item.tenNhanVien </option>
+
+        }
+    </select>
+    <br>
+    <input type="submit" value="Liệt Kê" name="submit" id="Liet ke"/>
+</form>

@@ -1,0 +1,11 @@
+﻿@page
+@model OnThi.Views.ThietBi.ThemThietBiModel
+@{
+}
+
+<h1>Trang thêm thiết bị</h1>
+<form action="/ThietBi/InsertTB" method="post">
+    <label for="MaThietBi">Mã Thiết Bị: </label><input type="text" name="MaThietBi" /><br>
+    <label for="TenThietBi">Tên Thiết Bị: </label><input type="text" name="TenThietBi" /><br />
+    <input type="submit" name="submit" value="Thêm" id="them" />
+</form>

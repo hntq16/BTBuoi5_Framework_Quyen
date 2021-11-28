@@ -1,0 +1,27 @@
+﻿@model List<object>
+<p>Danh sách thiết bị của nhân viên được chọn sửa</p>
+<table border="1" action="/NhanVien/" method="GET">
+    <tr>
+        <th>Mã thiết bị</th>
+        <th>Mã căn hộ</th>
+        <th>Lần thứ</th>
+        <th>Ngày bảo trì</th>
+        <th>Chức năng</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.GetType().GetProperty("maThietBi").GetValue(item, null)</td>
+            <td>@item.GetType().GetProperty("maCanHo").GetValue(item, null)</td>
+            <td>@item.GetType().GetProperty("lanThu").GetValue(item, null)</td>
+            <td>@item.GetType().GetProperty("ngayBaoTri").GetValue(item, null)</td>
+            <td> <a href="XoaThietBi?MaNV=@item.GetType().GetProperty("maNhanVien").GetValue(item, null)&MaTB=@item.GetType().GetProperty("maThietBi").GetValue(item, null)&MaCH=@item.GetType().GetProperty("maCanHo").GetValue(item, null)
+                    &LanThu=@item.GetType().GetProperty("lanThu").GetValue(item, null)">Delete
+                </a>
+                 <a href="ViewThietBi?MaNV=@item.GetType().GetProperty("maNhanVien").GetValue(item, null)&MaTB=@item.GetType().GetProperty("maThietBi").GetValue(item, null)&MaCH=@item.GetType().GetProperty("maCanHo").GetValue(item, null)
+                    &LanThu=@item.GetType().GetProperty("lanThu").GetValue(item, null)">View
+                </a>
+            </td> 
+        </tr>
+    }
+</table>
