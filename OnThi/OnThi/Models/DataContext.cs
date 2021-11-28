@@ -96,7 +96,7 @@ namespace OnThi.Models
                                 JOIN NHANVIEN ON n.manhanvien = NHANVIEN.manhanvien
                                 where NHANVIEN.manhanvien = @MaNhanVienInput;";
                 SqlCommand cmd = new SqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("MaNhanVienInput", MaNhanVien);//chua lay dc manv trong combobox
+                cmd.Parameters.AddWithValue("MaNhanVienInput", MaNhanVien);
                 using(var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -118,41 +118,64 @@ namespace OnThi.Models
             }
             return list;
         }
-        public int SqlXoaThietBi(string Id, string MaNhanVien)
+        public int SqlXoaThietBi(string MaNV, string MaTB, string MaCH, string LanThu)
         {
             using (SqlConnection conn = GetConnection())
             {
                 conn.Open();
-                var str = "delete from NV_BT where MaThietBi=@mathietbi and manhanvien=@MaNhanVienInput";
-                SqlCommand cmd = new SqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("mathietbi", Id);
-                cmd.Parameters.AddWithValue("MaNhanVienInput", MaNhanVien);
-                return (cmd.ExecuteNonQuery());
                 
+                var str = @"delete NV_BT where MaNhanVien=@maNhanVien and MaThietBi=@maThietBi and MaCanHo=@maCanHo and LanThu=@lanThu";
+                SqlCommand cmd = new SqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("maNhanVien", MaNV);
+                cmd.Parameters.AddWithValue("maThietBi", MaTB);
+                cmd.Parameters.AddWithValue("maCanHo", MaCH);
+                cmd.Parameters.AddWithValue("lanThu", LanThu);
+                return (cmd.ExecuteNonQuery());
+
+
             }
         }
-        public NV_BTModel SqlViewThietBi(string Id, string MaNhanVien)
+        public NV_BTModel SqlViewThietBi(string MaNV, string MaTB, string MaCH, string LanThu)
         {
             NV_BTModel bt = new NV_BTModel();
             using (SqlConnection conn = GetConnection())
             {
                 conn.Open();
-                var str = "select * from NV_BT where MaThietBi=@mathietbi and manhanvien=@MaNhanVienInput";
+                var str = "select * from NV_BT where MaNhanVien=@maNhanVien and MaThietBi=@maThietBi and MaCanHo=@maCanHo and LanThu=@lanThu;";
                 SqlCommand cmd = new SqlCommand(str, conn);
-                cmd.Parameters.AddWithValue("mathietbi", Id);
-                //cmd.Parameters.AddWithValue("MaNhanVienInput", MaNhanVien);
+                cmd.Parameters.AddWithValue("maNhanVien", MaNV);
+                cmd.Parameters.AddWithValue("maThietBi", MaTB);
+                cmd.Parameters.AddWithValue("maCanHo", MaCH);
+                cmd.Parameters.AddWithValue("lanThu", LanThu);
+
+                //cmd.Parameters["@manhanvien"].Value = Manv;
 
                 using (var reader = cmd.ExecuteReader())
                 {
                     reader.Read();
                     bt.maThietBi = reader["MaThietBi"].ToString();
                     bt.maCanHo = reader["MaCanHo"].ToString();
-                    bt.lanThu = Convert.ToInt32(reader["lanthu"]);
-                    bt.ngayBaoTri = Convert.ToDateTime(reader["ngaybaotri"]);
+                    bt.lanThu = Convert.ToInt32(reader["LanThu"]);
+                    bt.ngayBaoTri = Convert.ToDateTime(reader["NgayBaoTri"]);
                     bt.maNhanVien = reader["MaNhanVien"].ToString();
                 }
             }
             return (bt);
+        }
+        public int SqlUpdateNVBT(NV_BTModel nv)
+        {
+            using (SqlConnection conn = GetConnection())
+            {
+                conn.Open();
+                var str = @"update NV_BT set NgayBaoTri=@ngayBaoTri where MaNhanVien=@maNhanVien and MaThietBi=@maThietBi and MaCanHo=@maCanHo and LanThu=@lanThu";
+                SqlCommand cmd = new SqlCommand(str, conn);
+                cmd.Parameters.AddWithValue("maNhanVien", nv.maNhanVien);
+                cmd.Parameters.AddWithValue("maThietBi", nv.maThietBi);
+                cmd.Parameters.AddWithValue("maCanHo", nv.maCanHo);
+                cmd.Parameters.AddWithValue("lanThu", nv.lanThu);
+                cmd.Parameters.AddWithValue("ngayBaoTri", nv.ngayBaoTri.ToString("yyyy-MM-dd"));
+                return (cmd.ExecuteNonQuery());
+            }
         }
     }
 }

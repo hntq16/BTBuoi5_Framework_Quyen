@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Models\DataContext.cs~RFfe842e6.TMP" />
     <None Remove="Views\NhanVien\ViewThietBi.cshtml~RFf1ad8b8.TMP" />
   </ItemGroup>
 

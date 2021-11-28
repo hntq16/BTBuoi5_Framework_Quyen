@@ -32,21 +32,35 @@ namespace OnThi.Controllers
             DataContext context = HttpContext.RequestServices.GetService(typeof(OnThi.Models.DataContext)) as DataContext;
             return View(context.SqlLietKeThietBi(MaNhanVien));
         }
-        public IActionResult XoaThietBi(string Id, string MaNhanVien)
+        public IActionResult XoaThietBi(string MaNV, string MaTB, string MaCH, string LanThu)
         {
             DataContext context = HttpContext.RequestServices.GetService(typeof(OnThi.Models.DataContext)) as DataContext;
             //return View(context.SqlXoaThietBi(Id, MaNhanVien));
-            int count = context.SqlXoaThietBi(Id, MaNhanVien);
+            int count = context.SqlXoaThietBi(MaNV, MaTB, MaCH, LanThu);
             if (count > 0)
                 ViewData["thongbao"] = "Xóa thành công";
             else
                 ViewData["thongbao"] = "Xóa không thành công";
-            return View();
+            return View(context.SqlXoaThietBi(MaNV, MaTB, MaCH, LanThu));
         }
-        public IActionResult ViewThietBi(string Id, string MaNhanVien)
+        public IActionResult ViewThietBi(string MaNV, string MaTB, string MaCH, string LanThu)
         {
             DataContext context = HttpContext.RequestServices.GetService(typeof(OnThi.Models.DataContext)) as DataContext;
-            return View(context.SqlViewThietBi(Id, MaNhanVien));
+            return View(context.SqlViewThietBi(MaNV, MaTB, MaCH, LanThu));
+        }
+        [HttpPost]
+        public IActionResult UpdateThietBi(string maNV, NV_BTModel nv)
+        {
+            int count;
+            DataContext context = HttpContext.RequestServices.GetService(typeof(OnThi.Models.DataContext)) as DataContext;
+            nv.maNhanVien = maNV;
+            count = context.SqlUpdateNVBT(nv);
+            if (count > 0)
+            {
+                ViewData["thongbao"] = "Update thành công";
+            }
+            else ViewData["thongbao"] = "Update không thành công";
+            return View();
         }
     }
 }
