@@ -8,6 +8,7 @@ namespace OnThi.Models
 {
     public class DataContext
     {
+
         public string ConnectionString { get; set; }
         public DataContext(string connectionstring)
         {
@@ -106,7 +107,7 @@ namespace OnThi.Models
                             maThietBi = reader["mathietbi"].ToString(),
                             maCanHo= reader["macanho"].ToString(),
                             lanThu = Convert.ToInt32(reader["lanthu"]),
-                            ngayBaoTri = reader["ngaybaotri"].ToString(),
+                            ngayBaoTri = Convert.ToDateTime(reader["ngaybaotri"]),
                             maNhanVien = MaNhanVien
 
                         });
@@ -118,7 +119,7 @@ namespace OnThi.Models
             }
             return list;
         }
-        public int SqlXoaThietBi(string MaNV, string MaTB, string MaCH, string LanThu)
+        public int SqlXoaThietBi(string MaNV, string MaTB, string MaCH, int LanThu)
         {
             using (SqlConnection conn = GetConnection())
             {
@@ -135,7 +136,7 @@ namespace OnThi.Models
 
             }
         }
-        public NV_BTModel SqlViewThietBi(string MaNV, string MaTB, string MaCH, string LanThu)
+        public NV_BTModel SqlViewThietBi(string MaNV, string MaTB, string MaCH, int LanThu)
         {
             NV_BTModel bt = new NV_BTModel();
             using (SqlConnection conn = GetConnection())
@@ -147,6 +148,8 @@ namespace OnThi.Models
                 cmd.Parameters.AddWithValue("maThietBi", MaTB);
                 cmd.Parameters.AddWithValue("maCanHo", MaCH);
                 cmd.Parameters.AddWithValue("lanThu", LanThu);
+               // cmd.Parameters.AddWithValue("ngayBaoTri", bt.ngayBaoTri);
+
 
                 //cmd.Parameters["@manhanvien"].Value = Manv;
 
@@ -162,18 +165,22 @@ namespace OnThi.Models
             }
             return (bt);
         }
-        public int SqlUpdateNVBT(NV_BTModel nv)
+        public int SqlUpdateNVBT(string maThietBiCu, string maCanHoCu, int lanThuCu, NV_BTModel nv)
         {
             using (SqlConnection conn = GetConnection())
             {
                 conn.Open();
-                var str = @"update NV_BT set NgayBaoTri=@ngayBaoTri where MaNhanVien=@maNhanVien and MaThietBi=@maThietBi and MaCanHo=@maCanHo and LanThu=@lanThu";
+                var str = @"update NV_BT set MaThietBi =@maThietBi, MaCanHo =@maCanHo, LanThu =@lanThu, NgayBaoTri=@ngayBT
+                            where MaNhanVien=@maNhanVien and MaThietBi=@maTBCu and MaCanHo=@maCHCu and LanThu=@lanThuCu";
                 SqlCommand cmd = new SqlCommand(str, conn);
                 cmd.Parameters.AddWithValue("maNhanVien", nv.maNhanVien);
                 cmd.Parameters.AddWithValue("maThietBi", nv.maThietBi);
                 cmd.Parameters.AddWithValue("maCanHo", nv.maCanHo);
                 cmd.Parameters.AddWithValue("lanThu", nv.lanThu);
-                cmd.Parameters.AddWithValue("ngayBaoTri", nv.ngayBaoTri.ToString("yyyy-MM-dd"));
+                cmd.Parameters.AddWithValue("maTBCu", maThietBiCu);
+                cmd.Parameters.AddWithValue("maCHCu", maCanHoCu);
+                cmd.Parameters.AddWithValue("lanThuCu", lanThuCu);
+                cmd.Parameters.AddWithValue("ngayBT", nv.ngayBaoTri.ToString("yyyy-MM-dd"));
                 return (cmd.ExecuteNonQuery());
             }
         }

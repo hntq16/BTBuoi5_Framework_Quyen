@@ -32,7 +32,7 @@ namespace OnThi.Controllers
             DataContext context = HttpContext.RequestServices.GetService(typeof(OnThi.Models.DataContext)) as DataContext;
             return View(context.SqlLietKeThietBi(MaNhanVien));
         }
-        public IActionResult XoaThietBi(string MaNV, string MaTB, string MaCH, string LanThu)
+        public IActionResult XoaThietBi(string MaNV, string MaTB, string MaCH, int LanThu)
         {
             DataContext context = HttpContext.RequestServices.GetService(typeof(OnThi.Models.DataContext)) as DataContext;
             //return View(context.SqlXoaThietBi(Id, MaNhanVien));
@@ -43,18 +43,18 @@ namespace OnThi.Controllers
                 ViewData["thongbao"] = "Xóa không thành công";
             return View(context.SqlXoaThietBi(MaNV, MaTB, MaCH, LanThu));
         }
-        public IActionResult ViewThietBi(string MaNV, string MaTB, string MaCH, string LanThu)
+        public IActionResult ViewThietBi(string MaNV, string MaTB, string MaCH, int LanThu)
         {
             DataContext context = HttpContext.RequestServices.GetService(typeof(OnThi.Models.DataContext)) as DataContext;
             return View(context.SqlViewThietBi(MaNV, MaTB, MaCH, LanThu));
         }
         [HttpPost]
-        public IActionResult UpdateThietBi(string maNV, NV_BTModel nv)
+        public IActionResult UpdateThietBi(string maThietBiCu, string maCanHoCu, int lanThuCu, NV_BTModel nv)
         {
             int count;
             DataContext context = HttpContext.RequestServices.GetService(typeof(OnThi.Models.DataContext)) as DataContext;
-            nv.maNhanVien = maNV;
-            count = context.SqlUpdateNVBT(nv);
+            
+            count = context.SqlUpdateNVBT(maThietBiCu, maCanHoCu, lanThuCu, nv);
             if (count > 0)
             {
                 ViewData["thongbao"] = "Update thành công";
