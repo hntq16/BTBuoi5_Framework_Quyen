@@ -5,10 +5,15 @@
 @{
     <h2>Update Thiet Bi</h2>
     <form action="/NhanVien/UpdateThietBi" method="post">
-        <label for="maThietBi">Mã thiết bị</label> <input type="text" name="MaThietBi" value="@Model.maThietBi" /><br>
-        <label for="maCanHo">Mã căn hộ</label> <input type="text" name="MaCanHo" value="@Model.maCanHo" /><br>
-        <label for="lanThu">Lần sửa</label> <input type="text" name="LanThu" value="@Model.lanThu" /><br>
-        <label for="ngaySua">Ngày sửa</label> <input type="date" name="NgayBaoTri" value="@Model.ngayBaoTri" /><br>       
+        <input type="hidden" id="maNhanVien" name="maNhanVien" value="@Model.maNhanVien" />
+        <input type="hidden" id="maThietBiCu" name="maThietBiCu" value="@Model.maThietBi" />
+        <input type="hidden" id="maCanHoCu" name="maCanHoCu" value="@Model.maCanHo" />
+        <input type="hidden" id="LanThuCu" name="LanThuCu" value="@Model.lanThu" />
+
+        <label for="MaThietBi">Mã thiết bị</label> <input type="text" name="MaThietBi" value="@Model.maThietBi" /><br>
+        <label for="MaCanHo">Mã căn hộ</label> <input type="text" name="MaCanHo" value="@Model.maCanHo" /><br>
+        <label for="LanThu">Lần sửa</label> <input type="text" name="LanThu" value="@Model.lanThu" /><br>
+        <label for="NgayBaoTri">Ngày sửa</label> <input type="text" name="NgayBaoTri" value="@Model.ngayBaoTri" /><br>
         <input type="submit" name="submit" value="Update" />
     </form>
 }
